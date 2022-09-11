@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _text = "api 통신 전!";
+  String _text = "api 통신 전!!!";
   final String _url = 'https://four-carrots.link/';
 
   @override
@@ -56,10 +56,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
           print(_res.body);
             setState(() {
-              if (_text == "api 통신 전!") {
+              if (_text == "api 통신 전!!!") {
                 _text = _res.body;
               } else {
-                _text = "api 통신 전!";
+                _text = "api 통신 전!!!";
               }
             });
         },
