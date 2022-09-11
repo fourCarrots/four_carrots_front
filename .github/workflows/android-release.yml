@@ -24,9 +24,9 @@
         - name: Flutter test
           run: flutter test
 
-    android:
-      name: Android CI/CD
-      needs: flutter_test
-      runs-on: ubuntu-latest
-      steps:
-        -
+#    android:
+#      name: Android CI/CD
+#      needs: flutter_test
+#      runs-on: ubuntu-latest
+#      steps:
+#        -
