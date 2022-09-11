@@ -42,22 +42,15 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '$_text',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          http.Response _res = await http.get(Uri.parse(_url));
+          http.Response res = await http.get(Uri.parse(_url));
 
-          print(_res.body);
             setState(() {
               if (_text == "api 통신 전!!!") {
-                _text = _res.body;
+                _text = res.body;
               } else {
                 _text = "api 통신 전!!!";
               }
