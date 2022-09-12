@@ -3,7 +3,7 @@ name: four-carrots App CI-CD
 on:
   push:
     branches:
-      - "ktkdgh"
+      - "main"
 
 jobs:
   flutter_test:
