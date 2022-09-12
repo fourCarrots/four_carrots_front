@@ -1,10 +1,9 @@
-name: four-carrots App Android Release
+name: four-carrots App CI-CD
 
 on:
   push:
-    branches: [ "ktkdgh" ]
-  pull_request:
-    branches: [ "ktkdgh" ]
+    branches:
+      - "ktkdgh"
 
 jobs:
   flutter_test:
@@ -25,9 +24,29 @@ jobs:
       - name: Flutter test
         run: flutter test
 
-#    android:
-#      name: Android CI/CD
-#      needs: flutter_test
-#      runs-on: ubuntu-latest
-#      steps:
-#        -
+  android:
+    name: Android CI/CD
+    needs: flutter_test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Creating key.properties file
+        env:
+          PROPERTIES_PATH: "./android/key.properties"
+        run: |
+          echo keyPassword=\${{ secrets.KEY_PROPERTY_KEY_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
+          echo storePassword=\${{ secrets.KEY_PROPERTY_STORE_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
+          echo keyAlias=\${{ secrets.KEY_PROPERTY_KEY_ALIAS }} >> ${{env.PROPERTIES_PATH}}
+          echo storeFile=\${{ secrets.KEY_PROPERTY_STORE_FILE }} >> ${{env.PROPERTIES_PATH}}
+      - name: Decoding Keystore file
+        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+      - name: Pub Get Packages
+        run: flutter pub get
+      - name: build appbundle
+        run: flutter build appbundle
+      - name: Upload appbundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: appbundle
+          path: build/app/outputs/bundle/release
